@@ -24,6 +24,8 @@ export const useTodoStore = create<TodoState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axiosClient.get(TodoEndpoints.GET_ALL_TODOS);
+      console.log('Fetched todos:', response.data);
+      console.log('Endpoint used:', TodoEndpoints.GET_ALL_TODOS);
       set({ todos: response.data, isLoading: false });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
