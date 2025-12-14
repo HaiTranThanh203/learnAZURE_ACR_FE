@@ -1,40 +1,52 @@
-// src/App.tsx
+// src/App.tsx (ĐÃ SỬA)
+
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'; 
 
 import { AddTodoForm } from './components/AddTodoForm';
 import { TodoList } from './components/TodoList';
 import NavBar from './components/NavBar';
-import EmployeeList from './components/EmployeeList'; // Đảm bảo import đúng file .tsx
-import ProductList from './components/ProductList';   // Đảm bảo import đúng file .tsx
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'; 
-
+import EmployeeList from './components/EmployeeList'; 
+import ProductList from './components/ProductList';   
+import ProtectedRoute from './components/ProtectedRoute'; // <-- IMPORT MỚI
+import MockLogin from './components/MockLogin'; // IMPORT COMPONENT MOCK LOGIN
 function App() {
 
   return (
+    // <AuthProvider> // Giả định bạn đã bọc AuthProvider trong main.tsx (hoặc dùng Zustand không cần Provider)
     <BrowserRouter> 
       <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
         <div className="w-full max-w-4xl bg-white rounded-xl shadow-xl overflow-hidden">
           
-          {/* SỬA LỖI TẠI ĐÂY: Gọi NavBar không cần props nữa */}
           <NavBar /> 
           
           <div className="p-6">
             <h1 className="text-2xl font-bold text-gray-800 mb-6">MindX App</h1>
 
             <Routes>
-              {/* Redirect từ root / sang /todos */}
+              {/* PUBLIC ROUTE: Ai cũng vào được */}
               <Route path="/" element={<Navigate to="/todos" replace />} />
-              
               <Route path="/todos" element={
                 <div>
                   <AddTodoForm />
                   <TodoList />
                 </div>
               } />
+              
+              {/* PROTECTED ROUTES: Phải đăng nhập mới vào được */}
+              <Route 
+                  path="/employees" 
+                  element={<ProtectedRoute element={<EmployeeList />} />} 
+              />
+              <Route 
+                  path="/products" 
+                  element={<ProtectedRoute element={<ProductList />} />} 
+              />
 
-              <Route path="/employees" element={<EmployeeList />} />
-
-              <Route path="/products" element={<ProductList />} />
+              {/* Thêm Route cho trang Login, nếu muốn tách ra khỏi NavBar */}
+              <Route path="/login" element={
+                <div className="text-center p-10"><MockLogin /></div>
+              } />
 
               <Route path="*" element={<h2>404 - Not Found</h2>} />
             </Routes>
@@ -42,6 +54,7 @@ function App() {
         </div>
       </div>
     </BrowserRouter>
+    // </AuthProvider>
   );
 }
 
