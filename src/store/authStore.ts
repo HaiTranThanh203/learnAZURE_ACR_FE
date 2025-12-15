@@ -74,8 +74,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         });
     },
     
-    getAccessToken: () => {
-        // Lấy token trực tiếp từ localStorage cho chắc chắn
-        return localStorage.getItem(TOKEN_KEY);
-    }
+   getAccessToken: () => {
+    // Lấy token trực tiếp từ localStorage cho chắc chắn
+    return localStorage.getItem(TOKEN_KEY);
+}
 }));

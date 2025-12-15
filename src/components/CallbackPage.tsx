@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import axiosClient from '../api/axiosClient'; 
-import { useAuthStore } from '../store/authStore'; // Store Zustand của bạn
+import React, { useEffect, useRef } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import axiosClient from "../api/axiosClient";
+import { useAuthStore } from "../store/authStore"; // Store Zustand của bạn
 
 const CallbackPage = () => {
   const [searchParams] = useSearchParams();
@@ -10,27 +10,30 @@ const CallbackPage = () => {
   const calledRef = useRef(false); // Chặn gọi 2 lần (React 18)
 
   useEffect(() => {
-    const code = searchParams.get('code');
+    const code = searchParams.get("code");
 
     if (code && !calledRef.current) {
       calledRef.current = true;
-      
+
       // Gọi về Backend của BẠN để đổi token
-      axiosClient.post('/auth/login-mindx', { code })
+      axiosClient
+        .post("/auth/login-mindx", { code })
         .then((res) => {
           const { token, user } = res.data;
           console.log("Đăng nhập thành công!", user);
-          
+
           // Lưu token vào Store/LocalStorage
           mockLogin(token, user);
-          
+
           // Chuyển hướng về trang chủ
-          navigate('/');
+          setTimeout(() => {
+            navigate("/");
+          }, 100);
         })
         .catch((err) => {
           console.error("Lỗi Login:", err);
           alert("Đăng nhập thất bại! Vui lòng thử lại.");
-          navigate('/'); 
+          navigate("/");
         });
     }
   }, [searchParams, navigate, mockLogin]);

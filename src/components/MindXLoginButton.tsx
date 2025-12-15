@@ -2,15 +2,23 @@ import React from 'react';
 
 const MindXLoginButton = () => {
   const handleLogin = () => {
-    // Config CỨNG domain Azure tại đây để đảm bảo không bị sai
-    const CLIENT_ID = 'mindx-onboarding';
-    // Redirect URI này phải khớp 100% với cái bạn gửi chị Duyên và trong .env Backend
-    const REDIRECT_URI = 'https://haimindx-app-djamcah4c6b0fyb3.z03.azurefd.net/callback'; 
-    
-    const targetUrl = `https://id-dev.mindx.edu.vn/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=openid%20profile%20email`;
-    
-    window.location.href = targetUrl;
-  };
+  // Config CỨNG domain Azure tại đây để đảm bảo không bị sai
+  const CLIENT_ID = 'mindx-onboarding';
+  // Redirect URI này phải khớp 100% với cái bạn gửi chị Duyên và trong .env Backend
+  const REDIRECT_URI = 'https://haimindx-app-djamcah4c6b0fyb3.z03.azurefd.net/callback'; 
+  
+  // *** THAY ĐỔI Ở ĐÂY: Thêm &prompt=login vào cuối URL ***
+  const targetUrl = 
+    `https://id-dev.mindx.edu.vn/auth?` +
+    `client_id=${CLIENT_ID}&` +
+    `redirect_uri=${REDIRECT_URI}&` +
+    `response_type=code&` +
+    `scope=openid%20profile%20email&` + 
+    `prompt=login`; // <--- Đã thêm tham số BUỘC ĐĂNG NHẬP LẠI
+  // ******************************************************
+  
+  window.location.href = targetUrl;
+};
 
   return (
     <button 

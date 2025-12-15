@@ -39,7 +39,7 @@ export default function NavBar() {
                     // Đã đăng nhập
                     <>
                         <span className="text-sm font-medium text-gray-700">
-                            Chào, {user?.username}
+                            Chào bạn , {user?.username}
                         </span>
                         <button 
                             onClick={logout}
