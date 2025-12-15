@@ -5,7 +5,7 @@
 
 // Base URL (được định nghĩa trong axiosClient.ts)
 // export const API_BASE_URL = '/api';
-export const API_BASE_URL = 'http://localhost:3000';
+export const API_BASE_URL = '/api';
 /**
  * Todo Endpoints
  */

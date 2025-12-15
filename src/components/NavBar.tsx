@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom'; 
 import { useAuthStore } from '../store/authStore'; // <-- IMPORT ZUSTAND
-import MockLogin from './MockLogin'; // <-- IMPORT COMPONENT MOCK
+import MindXLoginButton from './MindXLoginButton';
 
 export default function NavBar() {
     const location = useLocation();
@@ -50,7 +50,7 @@ export default function NavBar() {
                     </>
                 ) : (
                     // Chưa đăng nhập (Hiển thị Mock Login)
-                    <MockLogin /> 
+                    <MindXLoginButton /> 
                 )}
             </div>
         </nav>

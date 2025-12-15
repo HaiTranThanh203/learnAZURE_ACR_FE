@@ -1,12 +1,12 @@
 // src/services/axiosClient.ts
-import axios, {  AxiosError } from 'axios';
-import type { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+
 // Giả định bạn có file endpoints.ts để lưu API_BASE_URL
 import { API_BASE_URL } from './endpoints'; 
 import { useAuthStore } from '../store/authStore'; 
 
-// Tạo Axios instance với kiểu trả về là AxiosInstance
-const axiosClient: AxiosInstance = axios.create({
+// Tạo Axios instance
+const axiosClient = axios.create({
     baseURL: API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
@@ -14,22 +14,20 @@ const axiosClient: AxiosInstance = axios.create({
 });
 
 // ==========================================================
-// 1. Interceptor: Thêm Token vào Request (Mock Auth)
+// 1. Interceptor: Thêm Token vào Request
 // ==========================================================
 
 axiosClient.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
-        // Lấy token từ store bằng .getState()
-        // Dùng .getState() để truy cập store bên ngoài component React
+    (config: InternalAxiosRequestConfig) => {
+        // Lấy token từ store
         const token = useAuthStore.getState().getAccessToken(); 
 
-        if (token) {
+        if (token && config.headers) {
             // Thêm Authorization Header
-            config.headers = {
-                ...config.headers,
-                Authorization: `Bearer ${token}`,
-            } as Record<string, string | number | boolean>; // Ép kiểu cho headers
+            // Với InternalAxiosRequestConfig, TS hiểu headers luôn tồn tại
+            config.headers.Authorization = `Bearer ${token}`;
         }
+        
         return config;
     }, 
     (error) => {
@@ -51,9 +49,8 @@ axiosClient.interceptors.response.use(
             // Tự động gọi logout từ store
             useAuthStore.getState().logout();
 
-            // Tùy chọn: Chuyển hướng người dùng về trang login
-            // Nếu bạn dùng react-router, nên dùng hook navigate trong component.
-            // Nếu dùng ngoài component: window.location.href = '/login';
+            // Tùy chọn: Chuyển hướng người dùng (nếu cần)
+            // window.location.href = '/login';
         }
         return Promise.reject(error);
     }

@@ -10,6 +10,7 @@ import EmployeeList from './components/EmployeeList';
 import ProductList from './components/ProductList';   
 import ProtectedRoute from './components/ProtectedRoute'; // <-- IMPORT MỚI
 import MockLogin from './components/MockLogin'; // IMPORT COMPONENT MOCK LOGIN
+import CallbackPage from './components/CallbackPage';
 function App() {
 
   return (
@@ -32,7 +33,7 @@ function App() {
                   <TodoList />
                 </div>
               } />
-              
+              <Route path="/callback" element={<CallbackPage />} />
               {/* PROTECTED ROUTES: Phải đăng nhập mới vào được */}
               <Route 
                   path="/employees" 
