@@ -1,6 +1,6 @@
 // src/App.tsx (ĐÃ SỬA)
 
-import React from 'react';
+import React ,{useEffect}from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'; 
 
 import { AddTodoForm } from './components/AddTodoForm';
@@ -11,8 +11,12 @@ import ProductList from './components/ProductList';
 import ProtectedRoute from './components/ProtectedRoute'; // <-- IMPORT MỚI
 import MockLogin from './components/MockLogin'; // IMPORT COMPONENT MOCK LOGIN
 import CallbackPage from './components/CallbackPage';
+import { initGA, logPageView, logEvent } from './analytics';
 function App() {
-
+useEffect(() => {
+    initGA();      // Kết nối Google
+    logPageView(); // Ghi nhận trang đầu tiên
+  }, []);
   return (
     // <AuthProvider> // Giả định bạn đã bọc AuthProvider trong main.tsx (hoặc dùng Zustand không cần Provider)
     <BrowserRouter> 

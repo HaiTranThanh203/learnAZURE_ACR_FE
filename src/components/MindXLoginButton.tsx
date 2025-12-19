@@ -1,7 +1,8 @@
 import React from 'react';
-
+import {  logEvent } from '../analytics';
 const MindXLoginButton = () => {
   const handleLogin = () => {
+    logEvent("User_Auth", "Click_Login_SSO", "Button_MindX_Login");
   // Config CỨNG domain Azure tại đây để đảm bảo không bị sai
   const CLIENT_ID = 'mindx-onboarding';
   // Redirect URI này phải khớp 100% với cái bạn gửi chị Duyên và trong .env Backend
